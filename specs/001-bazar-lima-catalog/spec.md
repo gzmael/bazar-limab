@@ -15,6 +15,17 @@
 - Q: Should visitors sort/filter room listings or rely on operator-defined order? → A: No visitor sort; operator-defined display order per room, Option A.
 - Q: How should the storefront present loading states for key catalog screens? → A: Skeleton layout placeholders for room chooser, room listing, and product detail, Option A.
 
+## Constitution Check
+
+*GATE: Verify alignment with `.specify/memory/constitution.md` before implementation and after major design changes.*
+
+| Principle | Status | Notes |
+|-----------|--------|--------|
+| **I. Mobile-First** | **Pass** | Room-first IA, bottom nav (FR-015), layouts and touch targets per FR-011; verified at ≤375px. |
+| **II. Performance Budget** | **Pass** | RSC for catalog reads; `next/image` with `sizes` on listing and detail imagery; lazy below-fold where applicable; skeletons (FR-013); Lighthouse mobile check before release (see `tasks.md` T048). |
+| **III. Visual Excellence** | **Pass** | Tailwind 4 + shadcn/ui; motion respects `prefers-reduced-motion` (FR-013, assumptions). |
+| **IV. Simple UX** | **Pass** | Chooser → listing → detail within three taps from Browse; cart one tap when bar visible (SC-006); pt-BR copy. |
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - Browse the catalog by room (Priority: P1)
@@ -97,7 +108,7 @@ An authorized family operator creates and updates rooms, assigns each product to
 ### Functional Requirements
 
 - **FR-001**: The system MUST present the catalog brand as “Bazar Lima Basilio” in customer-facing surfaces (header, title, or equivalent).
-- **FR-002**: The system MUST organize products under room categories; at minimum the model MUST support Bedroom, Kitchen, Garage, and Laundry, and MUST allow additional room labels defined by operators.
+- **FR-002**: The system MUST organize products under room categories; at minimum the model MUST support Bedroom, Kitchen, Garage, and Laundry, and MUST allow additional room labels defined by operators. A **one-time optional seed** (migration or script) MAY create these four baseline rooms in pt-BR for first deploy; operators retain full edit control afterward (see `tasks.md` T049).
 - **FR-003**: Each product MUST belong to exactly one room category.
 - **FR-004**: Each product MUST expose a clear title, numeric price in a single agreed currency for the storefront, condition (discrete set such as new / used grades—exact labels operator-configurable or fixed in admin), and a short description.
 - **FR-005**: Each product MUST support one to three photos shown on the public detail view.
@@ -136,6 +147,7 @@ An authorized family operator creates and updates rooms, assigns each product to
 
 ## Assumptions
 
+- **FR-002 baseline rooms**: Unless operators prefer to create every room by hand, implementers SHOULD run the optional baseline-room seed (Bedroom, Kitchen, Garage, Laundry — localized labels) once per environment so the minimum categories exist without manual data entry.
 - Currency is Brazilian Real (BRL) for display and message text, consistent with the project’s default locale.
 - “Condition” uses a small fixed set of labels agreed by the family (exact wording can match their voice).
 - Cart state remains on the shopper’s device only (no server-side cart account); whether selections survive a full page reload is decided during planning and MUST stay consistent with buyer expectations.
@@ -143,5 +155,5 @@ An authorized family operator creates and updates rooms, assigns each product to
 - The family provides the WhatsApp business or personal number used in configuration; legal consent for messaging is the family’s responsibility.
 - Inventory counts and “out of stock” automation are out of scope unless added later; availability is communicated in description or via WhatsApp.
 - Visual richness (motion, delight) is encouraged but MUST respect reduced-motion preferences and MUST NOT harm performance on mobile networks.
-- Global free-text product search is out of scope for v1 unless a later revision adds it; v1 discovery remains room-first per FR-016.
-- Visitor-facing listing sort and filters (e.g. by price, date, condition) are out of scope for v1; ordering is operator-controlled per FR-018.
+- Global free-text product search is out of scope for v1 unless a later revision adds it; see **FR-016** (normative).
+- Visitor-facing listing sort and filters (e.g. by price, date, condition) are out of scope for v1; see **FR-018** (normative).
