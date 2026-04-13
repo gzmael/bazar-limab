@@ -27,9 +27,9 @@ Single Next.js + Payload app at repository root: `src/`, `migrations/`, `Dockerf
 
 **Purpose**: Coolify-ready build output and accurate local env hints
 
-- [ ] T001 Enable Next.js `output: 'standalone'` in `next.config.mjs` for container deploys per `specs/001-bazar-lima-catalog/quickstart.md`
-- [ ] T002 Add multi-stage production `Dockerfile` at repository root (pnpm install → build → standalone `node server.js` on port 3000) per `specs/001-bazar-lima-catalog/research.md`
-- [ ] T003 [P] Update `.env.example` to PostgreSQL `DATABASE_URL`, `NEXT_PUBLIC_SERVER_URL`, `PAYLOAD_SECRET`, and `RESEND_API_KEY` aligned with `src/payload.config.ts`
+- [x] T001 Enable Next.js `output: 'standalone'` in `next.config.mjs` for container deploys per `specs/001-bazar-lima-catalog/quickstart.md`
+- [x] T002 Add multi-stage production `Dockerfile` at repository root (pnpm install → build → standalone `node server.js` on port 3000) per `specs/001-bazar-lima-catalog/research.md`
+- [x] T003 [P] Update `.env.example` to PostgreSQL `DATABASE_URL`, `NEXT_PUBLIC_SERVER_URL`, `PAYLOAD_SECRET`, and `RESEND_API_KEY` aligned with `src/payload.config.ts`
 
 ---
 
@@ -39,21 +39,21 @@ Single Next.js + Payload app at repository root: `src/`, `migrations/`, `Dockerf
 
 **⚠️ CRITICAL**: No user story work until this phase is complete
 
-- [ ] T004 Create `src/collections/Rooms.ts` (title, slug, sort, draft/published/**archived** or equivalent Payload status) per `specs/001-bazar-lima-catalog/data-model.md`; storefront MUST treat non-published and archived rooms as absent from public queries (FR-012)
-- [ ] T005 Create `src/collections/Products.ts` (room relationship, price BRL, condition, shortDescription, optional notes fields, gallery 1–3, per-room `sort`, draft/published/**archived**) per `specs/001-bazar-lima-catalog/data-model.md`; storefront MUST hide unpublished/archived products from public queries (FR-012)
-- [ ] T006 Create `src/globals/SalesChannel.ts` (or equivalent slug) with `whatsappE164`, `displayCurrency`, optional `storefrontTitle` per `specs/001-bazar-lima-catalog/data-model.md`
-- [ ] T007 Register Rooms, Products, and Sales global in `src/payload.config.ts`; remove `Posts` from `collections` array
-- [ ] T008 [P] Remove template `src/collections/Posts.ts` or replace exports if still referenced; ensure no dead imports in `src/payload.config.ts`
-- [ ] T009 Add validation/hooks on `src/collections/Products.ts` to enforce gallery length ≤3 and required fields per `specs/001-bazar-lima-catalog/data-model.md` edge cases
-- [ ] T010 [P] Add `afterChange` (or equivalent) hooks on `src/collections/Rooms.ts` and `src/collections/Products.ts` calling `revalidatePath` / `revalidateTag` for affected storefront routes per `specs/001-bazar-lima-catalog/research.md`
-- [ ] T011 Configure access on `src/collections/Rooms.ts` and `src/collections/Products.ts` so anonymous public read is limited to **published** storefront data (draft and **archived** excluded) and mutations require authenticated operators
-- [ ] T012 Create and apply Payload Postgres migration under `migrations/` for new collections/global; run project migration workflow per `specs/001-bazar-lima-catalog/quickstart.md`
-- [ ] T013 Regenerate `src/payload-types.ts` after schema changes using the project’s Payload TypeScript generate command
-- [ ] T049 [P] Add optional baseline room seed for FR-002 in `src/seed/baselineRooms.ts` (idempotent upsert by slug; pt-BR titles for Quarto, Cozinha, Garagem, Lavanderia) wired to a `pnpm` script or one-time migration so first deploy can satisfy minimum categories without hand entry
-- [ ] T014 Implement `src/lib/payload/storefront.ts` with typed helpers: list published rooms (chooser order), list published products by room slug ordered by `sort`, get product by slug, read sales global
-- [ ] T015 Update `src/app/(app)/layout.tsx` to `lang="pt-BR"`, default metadata for the catalog, and wrap content with shared storefront chrome placeholders per FR-001 and FR-011
-- [ ] T016 [P] Add `src/components/storefront/BottomNav.tsx` with persistent destinations for Browse entry and `/cart` (touch targets ≥44px) per FR-015
-- [ ] T017 [P] Add `src/components/storefront/StoreHeader.tsx` showing brand “Bazar Lima Basilio” per FR-001
+- [x] T004 Create `src/collections/Rooms.ts` (title, slug, sort, draft/published/**archived** or equivalent Payload status) per `specs/001-bazar-lima-catalog/data-model.md`; storefront MUST treat non-published and archived rooms as absent from public queries (FR-012)
+- [x] T005 Create `src/collections/Products.ts` (room relationship, price BRL, condition, shortDescription, optional notes fields, gallery 1–3, per-room `sort`, draft/published/**archived**) per `specs/001-bazar-lima-catalog/data-model.md`; storefront MUST hide unpublished/archived products from public queries (FR-012)
+- [x] T006 Create `src/globals/SalesChannel.ts` (or equivalent slug) with `whatsappE164`, `displayCurrency`, optional `storefrontTitle` per `specs/001-bazar-lima-catalog/data-model.md`
+- [x] T007 Register Rooms, Products, and Sales global in `src/payload.config.ts`; remove `Posts` from `collections` array
+- [x] T008 [P] Remove template `src/collections/Posts.ts` or replace exports if still referenced; ensure no dead imports in `src/payload.config.ts`
+- [x] T009 Add validation/hooks on `src/collections/Products.ts` to enforce gallery length ≤3 and required fields per `specs/001-bazar-lima-catalog/data-model.md` edge cases
+- [x] T010 [P] Add `afterChange` (or equivalent) hooks on `src/collections/Rooms.ts` and `src/collections/Products.ts` calling `revalidatePath` / `revalidateTag` for affected storefront routes per `specs/001-bazar-lima-catalog/research.md`
+- [x] T011 Configure access on `src/collections/Rooms.ts` and `src/collections/Products.ts` so anonymous public read is limited to **published** storefront data (draft and **archived** excluded) and mutations require authenticated operators
+- [x] T012 Create and apply Payload Postgres migration under `migrations/` for new collections/global; run project migration workflow per `specs/001-bazar-lima-catalog/quickstart.md`
+- [x] T013 Regenerate `src/payload-types.ts` after schema changes using the project’s Payload TypeScript generate command
+- [x] T049 [P] Add optional baseline room seed for FR-002 in `src/seed/baselineRooms.ts` (idempotent upsert by slug; pt-BR titles for Quarto, Cozinha, Garagem, Lavanderia) wired to a `pnpm` script or one-time migration so first deploy can satisfy minimum categories without hand entry
+- [x] T014 Implement `src/lib/payload/storefront.ts` with typed helpers: list published rooms (chooser order), list published products by room slug ordered by `sort`, get product by slug, read sales global
+- [x] T015 Update `src/app/(app)/layout.tsx` to `lang="pt-BR"`, default metadata for the catalog, and wrap content with shared storefront chrome placeholders per FR-001 and FR-011
+- [x] T016 [P] Add `src/components/storefront/BottomNav.tsx` with persistent destinations for Browse entry and `/cart` (touch targets ≥44px) per FR-015
+- [x] T017 [P] Add `src/components/storefront/StoreHeader.tsx` showing brand “Bazar Lima Basilio” per FR-001
 
 **Checkpoint**: Schema, migrations, types, and shared layout shell ready — user story routes can ship incrementally
 
@@ -67,13 +67,13 @@ Single Next.js + Payload app at repository root: `src/`, `migrations/`, `Dockerf
 
 ### Implementation for User Story 1
 
-- [ ] T018 [P] [US1] Add `src/components/storefront/skeletons/RoomChooserSkeleton.tsx` mirroring chooser layout per FR-013
-- [ ] T019 [P] [US1] Add `src/components/storefront/skeletons/RoomListingSkeleton.tsx` mirroring listing cards per FR-013
-- [ ] T020 [US1] Implement `src/app/(app)/browse/page.tsx` as room chooser (grid or list) using `src/lib/payload/storefront.ts`; add `src/app/(app)/browse/loading.tsx` using RoomChooserSkeleton
-- [ ] T021 [US1] Implement `src/app/(app)/rooms/[slug]/page.tsx` listing published products for one room in `sort` order using `next/image` for each card’s primary photo with explicit `width`/`height` or `fill` + `sizes` appropriate to the grid; lazy-load below-the-fold rows per `.specify/memory/constitution.md` II; add `src/app/(app)/rooms/[slug]/loading.tsx` using RoomListingSkeleton
-- [ ] T022 [US1] Update `src/app/(app)/page.tsx` to send visitors to the room chooser (`/browse`) without skipping FR-017 normal navigation
-- [ ] T023 [US1] Add `generateMetadata` in `src/app/(app)/browse/page.tsx` and `src/app/(app)/rooms/[slug]/page.tsx` per `specs/001-bazar-lima-catalog/research.md`
-- [ ] T024 [US1] Integrate `src/components/storefront/BottomNav.tsx` and `src/components/storefront/StoreHeader.tsx` in `src/app/(app)/layout.tsx` with correct active states and cart link from room listing and product detail routes per FR-015 and SC-006 (when T029 adds `StorefrontChrome.tsx` / `NavVisibilityProvider.tsx`, move bottom chrome into that wrapper without changing routes)
+- [x] T018 [P] [US1] Add `src/components/storefront/skeletons/RoomChooserSkeleton.tsx` mirroring chooser layout per FR-013
+- [x] T019 [P] [US1] Add `src/components/storefront/skeletons/RoomListingSkeleton.tsx` mirroring listing cards per FR-013
+- [x] T020 [US1] Implement `src/app/(app)/browse/page.tsx` as room chooser (grid or list) using `src/lib/payload/storefront.ts`; add `src/app/(app)/browse/loading.tsx` using RoomChooserSkeleton
+- [x] T021 [US1] Implement `src/app/(app)/rooms/[slug]/page.tsx` listing published products for one room in `sort` order using `next/image` for each card’s primary photo with explicit `width`/`height` or `fill` + `sizes` appropriate to the grid; lazy-load below-the-fold rows per `.specify/memory/constitution.md` II; add `src/app/(app)/rooms/[slug]/loading.tsx` using RoomListingSkeleton
+- [x] T022 [US1] Update `src/app/(app)/page.tsx` to send visitors to the room chooser (`/browse`) without skipping FR-017 normal navigation
+- [x] T023 [US1] Add `generateMetadata` in `src/app/(app)/browse/page.tsx` and `src/app/(app)/rooms/[slug]/page.tsx` per `specs/001-bazar-lima-catalog/research.md`
+- [x] T024 [US1] Integrate `src/components/storefront/BottomNav.tsx` and `src/components/storefront/StoreHeader.tsx` in `src/app/(app)/layout.tsx` with correct active states and cart link from room listing and product detail routes per FR-015 and SC-006 (when T029 adds `StorefrontChrome.tsx` / `NavVisibilityProvider.tsx`, move bottom chrome into that wrapper without changing routes)
 
 **Checkpoint**: P1 browse flow testable without product detail or cart implementation beyond navigation shell
 
@@ -87,11 +87,11 @@ Single Next.js + Payload app at repository root: `src/`, `migrations/`, `Dockerf
 
 ### Implementation for User Story 2
 
-- [ ] T025 [P] [US2] Add `src/components/storefront/ProductGallery.tsx` for 1–3 images with mobile-friendly navigation and no empty slots per spec edge cases; render all gallery assets with `next/image` (correct `sizes`, priority only for the primary/visible slide) and lazy/defer non-visible slides per `.specify/memory/constitution.md` II
-- [ ] T026 [US2] Implement `src/app/(app)/products/[slug]/page.tsx` using `src/lib/payload/storefront.ts` to render title, price, condition, shortDescription, and conditional notes blocks per FR-004–FR-006 (reuse gallery images from T025 — no duplicate `<img>` without `next/image`)
-- [ ] T027 [US2] Add `src/app/(app)/products/[slug]/loading.tsx` with a product-detail-shaped skeleton per FR-013
-- [ ] T028 [US2] Add `generateMetadata` in `src/app/(app)/products/[slug]/page.tsx` with canonical and Open Graph fields per `specs/001-bazar-lima-catalog/research.md`
-- [ ] T029 [US2] Add `src/components/storefront/NavVisibilityProvider.tsx` (client React context) and a thin `src/components/storefront/StorefrontChrome.tsx` (or equivalent) consumed from `src/app/(app)/layout.tsx` so `BottomNav` visibility responds to context; update `src/components/storefront/ProductGallery.tsx` to toggle fullscreen/lightbox mode via that context so bottom navigation hides during fullscreen media and restores on exit per spec edge case (avoid coupling gallery directly to layout internals)
+- [x] T025 [P] [US2] Add `src/components/storefront/ProductGallery.tsx` for 1–3 images with mobile-friendly navigation and no empty slots per spec edge cases; render all gallery assets with `next/image` (correct `sizes`, priority only for the primary/visible slide) and lazy/defer non-visible slides per `.specify/memory/constitution.md` II
+- [x] T026 [US2] Implement `src/app/(app)/products/[slug]/page.tsx` using `src/lib/payload/storefront.ts` to render title, price, condition, shortDescription, and conditional notes blocks per FR-004–FR-006 (reuse gallery images from T025 — no duplicate `<img>` without `next/image`)
+- [x] T027 [US2] Add `src/app/(app)/products/[slug]/loading.tsx` with a product-detail-shaped skeleton per FR-013
+- [x] T028 [US2] Add `generateMetadata` in `src/app/(app)/products/[slug]/page.tsx` with canonical and Open Graph fields per `specs/001-bazar-lima-catalog/research.md`
+- [x] T029 [US2] Add `src/components/storefront/NavVisibilityProvider.tsx` (client React context) and a thin `src/components/storefront/StorefrontChrome.tsx` (or equivalent) consumed from `src/app/(app)/layout.tsx` so `BottomNav` visibility responds to context; update `src/components/storefront/ProductGallery.tsx` to toggle fullscreen/lightbox mode via that context so bottom navigation hides during fullscreen media and restores on exit per spec edge case (avoid coupling gallery directly to layout internals)
 
 **Checkpoint**: P1 browse + detail complete — still without cart/checkout (MVP catalog reading)
 
@@ -105,16 +105,16 @@ Single Next.js + Payload app at repository root: `src/`, `migrations/`, `Dockerf
 
 ### Implementation for User Story 3
 
-- [ ] T030 [P] [US3] Implement Zod models mirroring `specs/001-bazar-lima-catalog/contracts/cart-lines.schema.json` in `src/lib/cart/schema.ts`
-- [ ] T031 [P] [US3] Implement checkout draft validation mirroring `specs/001-bazar-lima-catalog/contracts/checkout-draft.schema.json` in `src/lib/cart/checkout-draft.ts`
-- [ ] T032 [US3] Implement `src/lib/cart/storage.ts` for versioned localStorage key with read/merge/write; duplicate product adds increment `quantity` per spec edge cases
-- [ ] T033 [US3] Add `src/lib/cart/CartProvider.tsx` (client) exposing cart operations and pt-BR disclosure that the cart is stored on device per `specs/001-bazar-lima-catalog/quickstart.md`
-- [ ] T034 [US3] Implement `src/lib/whatsapp/buildOrderMessage.ts` and URL helper (e.g. `src/lib/whatsapp/waMeUrl.ts`) per `specs/001-bazar-lima-catalog/contracts/whatsapp-order-message.md` using sales global from `src/lib/payload/storefront.ts`
-- [ ] T035 [US3] Wrap storefront tree in `src/app/(app)/layout.tsx` with `src/lib/cart/CartProvider.tsx` using appropriate `"use client"` boundaries
-- [ ] T036 [US3] Add client add-to-cart UI on `src/app/(app)/products/[slug]/page.tsx` (e.g. `src/components/storefront/AddToCartSection.tsx`) populating denormalized title/price for cart lines
-- [ ] T037 [US3] Implement `src/app/(app)/cart/page.tsx` with line list, quantity updates, remove, and empty state per FR-007 and FR-014
-- [ ] T038 [US3] Implement `src/app/(app)/checkout/page.tsx` with required fields, validation UI, empty-cart guard, WhatsApp open, and copy-friendly fallback when `wa.me` cannot open per FR-008–FR-010 and spec edge cases
-- [ ] T039 [US3] Optionally mirror checkout draft to `sessionStorage` from `src/app/(app)/checkout/page.tsx` per `specs/001-bazar-lima-catalog/research.md` (cleared after successful handoff)
+- [x] T030 [P] [US3] Implement Zod models mirroring `specs/001-bazar-lima-catalog/contracts/cart-lines.schema.json` in `src/lib/cart/schema.ts`
+- [x] T031 [P] [US3] Implement checkout draft validation mirroring `specs/001-bazar-lima-catalog/contracts/checkout-draft.schema.json` in `src/lib/cart/checkout-draft.ts`
+- [x] T032 [US3] Implement `src/lib/cart/storage.ts` for versioned localStorage key with read/merge/write; duplicate product adds increment `quantity` per spec edge cases
+- [x] T033 [US3] Add `src/lib/cart/CartProvider.tsx` (client) exposing cart operations and pt-BR disclosure that the cart is stored on device per `specs/001-bazar-lima-catalog/quickstart.md`
+- [x] T034 [US3] Implement `src/lib/whatsapp/buildOrderMessage.ts` and URL helper (e.g. `src/lib/whatsapp/waMeUrl.ts`) per `specs/001-bazar-lima-catalog/contracts/whatsapp-order-message.md` using sales global from `src/lib/payload/storefront.ts`
+- [x] T035 [US3] Wrap storefront tree in `src/app/(app)/layout.tsx` with `src/lib/cart/CartProvider.tsx` using appropriate `"use client"` boundaries
+- [x] T036 [US3] Add client add-to-cart UI on `src/app/(app)/products/[slug]/page.tsx` (e.g. `src/components/storefront/AddToCartSection.tsx`) populating denormalized title/price for cart lines
+- [x] T037 [US3] Implement `src/app/(app)/cart/page.tsx` with line list, quantity updates, remove, and empty state per FR-007 and FR-014
+- [x] T038 [US3] Implement `src/app/(app)/checkout/page.tsx` with required fields, validation UI, empty-cart guard, WhatsApp open, and copy-friendly fallback when `wa.me` cannot open per FR-008–FR-010 and spec edge cases
+- [x] T039 [US3] Optionally mirror checkout draft to `sessionStorage` from `src/app/(app)/checkout/page.tsx` per `specs/001-bazar-lima-catalog/research.md` (cleared after successful handoff)
 
 **Checkpoint**: End-to-end shopper flow through WhatsApp handoff without Payload storing buyer profiles
 
@@ -128,11 +128,11 @@ Single Next.js + Payload app at repository root: `src/`, `migrations/`, `Dockerf
 
 ### Implementation for User Story 4
 
-- [ ] T040 [P] [US4] Refine admin `labels`, `admin.description`, and grouping for fields in `src/collections/Rooms.ts` for operator clarity (pt-BR)
-- [ ] T041 [P] [US4] Refine admin `labels`, `admin.description`, validation messages, and upload limits UX in `src/collections/Products.ts` (pt-BR)
-- [ ] T042 [P] [US4] Refine admin presentation and validation hints in `src/globals/SalesChannel.ts` for WhatsApp and currency settings
-- [ ] T043 [US4] Update `src/collections/Users.ts` access/roles so only authorized operators can create/update catalog collections and globals
-- [ ] T044 [US4] End-to-end verify in Payload Admin at `src/app/(payload)/admin/[[...segments]]/page.tsx` that draft, publish, and **archive** flows for rooms and products match storefront visibility (archived and draft MUST NOT appear publicly) and that per-room `sort` updates public listings without duplicates
+- [x] T040 [P] [US4] Refine admin `labels`, `admin.description`, and grouping for fields in `src/collections/Rooms.ts` for operator clarity (pt-BR)
+- [x] T041 [P] [US4] Refine admin `labels`, `admin.description`, validation messages, and upload limits UX in `src/collections/Products.ts` (pt-BR)
+- [x] T042 [P] [US4] Refine admin presentation and validation hints in `src/globals/SalesChannel.ts` for WhatsApp and currency settings
+- [x] T043 [US4] Update `src/collections/Users.ts` access/roles so only authorized operators can create/update catalog collections and globals
+- [x] T044 [US4] End-to-end verify in Payload Admin at `src/app/(payload)/admin/[[...segments]]/page.tsx` that draft, publish, and **archive** flows for rooms and products match storefront visibility (archived and draft MUST NOT appear publicly) and that per-room `sort` updates public listings without duplicates
 
 **Checkpoint**: Operators can run the business without developer intervention for routine catalog updates
 
@@ -142,11 +142,11 @@ Single Next.js + Payload app at repository root: `src/`, `migrations/`, `Dockerf
 
 **Purpose**: SEO consistency, motion preferences, optional React Bits, release validation
 
-- [ ] T045 [P] Pass SEO review across `src/app/(app)/layout.tsx`, `src/app/(app)/browse/page.tsx`, `src/app/(app)/rooms/[slug]/page.tsx`, and `src/app/(app)/products/[slug]/page.tsx` for `robots`, canonical, `og:*`, and pt-BR titles per `specs/001-bazar-lima-catalog/quickstart.md`
-- [ ] T046 [P] Ensure skeleton/animation styles respect `prefers-reduced-motion` in `src/app/(app)/globals.css` and storefront components per spec assumptions
-- [ ] T047 [P] Add isolated React Bits usage only under `src/components/bits/` where bundle impact is controlled per `specs/001-bazar-lima-catalog/research.md`
-- [ ] T050 [P] Add `src/app/(app)/browse/error.tsx`, `src/app/(app)/rooms/[slug]/error.tsx`, and `src/app/(app)/products/[slug]/error.tsx` with pt-BR copy, retry where appropriate, and no stack traces or internal error strings (FR-013)
-- [ ] T048 Run manual smoke from `specs/001-bazar-lima-catalog/quickstart.md` (local dev, migrations, Docker build/run) and fix any gaps in `Dockerfile` or `next.config.mjs`; run **Lighthouse (mobile, simulated throttling)** on `/browse`, a representative `rooms/[slug]`, and `products/[slug]` and record whether LCP stays under 2.5s and total transferred bytes stay within the Performance Budget in `.specify/memory/constitution.md` II (iterate until pass or document approved exception)
+- [x] T045 [P] Pass SEO review across `src/app/(app)/layout.tsx`, `src/app/(app)/browse/page.tsx`, `src/app/(app)/rooms/[slug]/page.tsx`, and `src/app/(app)/products/[slug]/page.tsx` for `robots`, canonical, `og:*`, and pt-BR titles per `specs/001-bazar-lima-catalog/quickstart.md`
+- [x] T046 [P] Ensure skeleton/animation styles respect `prefers-reduced-motion` in `src/app/(app)/globals.css` and storefront components per spec assumptions
+- [x] T047 [P] Add isolated React Bits usage only under `src/components/bits/` where bundle impact is controlled per `specs/001-bazar-lima-catalog/research.md`
+- [x] T050 [P] Add `src/app/(app)/browse/error.tsx`, `src/app/(app)/rooms/[slug]/error.tsx`, and `src/app/(app)/products/[slug]/error.tsx` with pt-BR copy, retry where appropriate, and no stack traces or internal error strings (FR-013)
+- [x] T048 Run manual smoke from `specs/001-bazar-lima-catalog/quickstart.md` (local dev, migrations, Docker build/run) and fix any gaps in `Dockerfile` or `next.config.mjs`; run **Lighthouse (mobile, simulated throttling)** on `/browse`, a representative `rooms/[slug]`, and `products/[slug]` and record whether LCP stays under 2.5s and total transferred bytes stay within the Performance Budget in `.specify/memory/constitution.md` II (iterate until pass or document approved exception)
 
 ---
 

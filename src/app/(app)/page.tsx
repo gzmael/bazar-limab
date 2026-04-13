@@ -1,13 +1,5 @@
-import type { NextPage } from 'next'
+import { redirect } from 'next/navigation'
 
-import React from 'react'
-
-const Page: NextPage = () => {
-  return (
-    <div className="container">
-      <h1 className="text-4xl font-bold">Hello, Next.js 14!</h1>
-    </div>
-  )
+export default function HomePage() {
+  redirect('/browse')
 }
-
-export default Page
