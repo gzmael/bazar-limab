@@ -1,9 +1,9 @@
-import { mongooseAdapter } from '@payloadcms/db-mongodb'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+import { postgresAdapter } from '@payloadcms/db-postgres'
+import { resendAdapter } from '@payloadcms/email-resend'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
-import path from 'path'
-import { buildConfig } from 'payload/config'
-import { fileURLToPath } from 'url'
-
+import { buildConfig } from 'payload'
 import { Posts } from './collections/Posts'
 import { Users } from './collections/Users'
 
@@ -13,6 +13,9 @@ const dirname = path.dirname(filename)
 export default buildConfig({
   admin: {
     user: Users.slug,
+    timezones: {
+      defaultTimezone: 'America/Fortaleza',
+    },
   },
   collections: [Users, Posts],
   editor: lexicalEditor({}),
@@ -20,7 +23,20 @@ export default buildConfig({
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
-  db: mongooseAdapter({
-    url: process.env.DATABASE_URL || '',
+  db: postgresAdapter({
+    pool: {
+      connectionString: process.env.DATABASE_URL || '',
+    },
+    push: false,
+    migrationDir: './migrations',
   }),
+  email: resendAdapter({
+    defaultFromAddress: 'noreply@baita.dev.br',
+    defaultFromName: 'Baita Dev',
+    apiKey: process.env.RESEND_API_KEY || '',
+  }),
+  localization: {
+    locales: ['pt-BR'],
+    defaultLocale: 'pt-BR',
+  },
 })

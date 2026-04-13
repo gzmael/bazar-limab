@@ -1,5 +1,4 @@
-import AlertBox from '@/components/AlertBox'
-import type { CollectionConfig } from 'payload/types'
+import type { CollectionConfig } from 'payload'
 
 export const Posts: CollectionConfig = {
   slug: 'posts',
@@ -16,7 +15,7 @@ export const Posts: CollectionConfig = {
       type: 'ui',
       admin: {
         components: {
-          Field: AlertBox,
+          Field: '@/components/AlertBox',
         },
       },
     },
