@@ -4,10 +4,20 @@ export const Users: CollectionConfig = {
   slug: 'users',
   admin: {
     useAsTitle: 'email',
+    description: 'Operadores autenticados gerenciam ambientes, produtos e o canal de vendas.',
   },
   auth: true,
   fields: [
-    // Email added by default
-    // Add more fields as needed
+    {
+      name: 'role',
+      type: 'select',
+      required: true,
+      defaultValue: 'operator',
+      label: 'Função',
+      options: [
+        { label: 'Operador', value: 'operator' },
+        { label: 'Administrador', value: 'admin' },
+      ],
+    },
   ],
 }

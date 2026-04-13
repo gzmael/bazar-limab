@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bazar-lima.local/contracts/checkout-draft.schema.json",
+  "title": "Bazar Lima checkout draft (transient)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["buyerName", "buyerContact"],
+  "properties": {
+    "buyerName": { "type": "string", "minLength": 1 },
+    "buyerContact": { "type": "string", "minLength": 3 }
+  },
+  "description": "Must not be persisted as Payload records or order history (FR-008). Optional sessionStorage mirror only."
+}

@@ -68,7 +68,9 @@ export interface Config {
   blocks: {};
   collections: {
     users: User;
-    posts: Post;
+    media: Media;
+    rooms: Room;
+    products: Product;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -77,7 +79,9 @@ export interface Config {
   collectionsJoins: {};
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
-    posts: PostsSelect<false> | PostsSelect<true>;
+    media: MediaSelect<false> | MediaSelect<true>;
+    rooms: RoomsSelect<false> | RoomsSelect<true>;
+    products: ProductsSelect<false> | ProductsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -87,8 +91,12 @@ export interface Config {
     defaultIDType: number;
   };
   fallbackLocale: ('false' | 'none' | 'null') | false | null | 'pt-BR' | 'pt-BR'[];
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    'sales-channel': SalesChannel;
+  };
+  globalsSelect: {
+    'sales-channel': SalesChannelSelect<false> | SalesChannelSelect<true>;
+  };
   locale: 'pt-BR';
   widgets: {
     collections: CollectionsWidget;
@@ -118,11 +126,14 @@ export interface UserAuthOperations {
   };
 }
 /**
+ * Operadores autenticados gerenciam ambientes, produtos e o canal de vendas.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface User {
   id: number;
+  role: 'operator' | 'admin';
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -144,11 +155,98 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "posts".
+ * via the `definition` "media".
  */
-export interface Post {
+export interface Media {
   id: number;
-  title?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+}
+/**
+ * Cômodos ou áreas da casa (ex.: Quarto, Cozinha). Ordem define a grade na vitrine.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "rooms".
+ */
+export interface Room {
+  id: number;
+  /**
+   * Nome exibido na vitrine (pt-BR).
+   */
+  title: string;
+  /**
+   * Segmento de URL (ex.: quarto). Único em todo o site.
+   */
+  slug: string;
+  /**
+   * Menor número aparece primeiro na escolha de ambientes.
+   */
+  sort: number;
+  /**
+   * Somente **Publicado** aparece para visitantes. **Arquivado** oculta o ambiente da vitrine.
+   */
+  storeStatus: 'draft' | 'published' | 'archived';
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Até **3 fotos** por produto. Ordem numérica dentro do ambiente controla a listagem pública.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "products".
+ */
+export interface Product {
+  id: number;
+  title: string;
+  /**
+   * URL única do produto (ex.: cadeira-estofada).
+   */
+  slug: string;
+  /**
+   * Cada produto pertence a um único ambiente.
+   */
+  room: number | Room;
+  /**
+   * Valor em reais (número decimal).
+   */
+  price: number;
+  condition: 'novo' | 'seminovo' | 'usado' | 'usado_bom';
+  /**
+   * Máximo 500 caracteres. Aparece na vitrine e no WhatsApp.
+   */
+  shortDescription: string;
+  /**
+   * Opcional (ex.: 80×40 cm).
+   */
+  notesDimensions?: string | null;
+  notesBrand?: string | null;
+  notesYear?: string | null;
+  /**
+   * Entre 1 e 3 imagens por produto.
+   */
+  gallery?:
+    | {
+        file: number | Media;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Menor número aparece primeiro na listagem pública desse ambiente.
+   */
+  sort: number;
+  /**
+   * Somente **Publicado** (com ambiente publicado) aparece para visitantes. **Arquivado** remove da vitrine.
+   */
+  storeStatus: 'draft' | 'published' | 'archived';
   updatedAt: string;
   createdAt: string;
 }
@@ -181,8 +279,16 @@ export interface PayloadLockedDocument {
         value: number | User;
       } | null)
     | ({
-        relationTo: 'posts';
-        value: number | Post;
+        relationTo: 'media';
+        value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'rooms';
+        value: number | Room;
+      } | null)
+    | ({
+        relationTo: 'products';
+        value: number | Product;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -231,6 +337,7 @@ export interface PayloadMigration {
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
+  role?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -250,10 +357,55 @@ export interface UsersSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "posts_select".
+ * via the `definition` "media_select".
  */
-export interface PostsSelect<T extends boolean = true> {
+export interface MediaSelect<T extends boolean = true> {
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "rooms_select".
+ */
+export interface RoomsSelect<T extends boolean = true> {
   title?: T;
+  slug?: T;
+  sort?: T;
+  storeStatus?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "products_select".
+ */
+export interface ProductsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  room?: T;
+  price?: T;
+  condition?: T;
+  shortDescription?: T;
+  notesDimensions?: T;
+  notesBrand?: T;
+  notesYear?: T;
+  gallery?:
+    | T
+    | {
+        file?: T;
+        id?: T;
+      };
+  sort?: T;
+  storeStatus?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -296,6 +448,38 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * WhatsApp e moeda exibida na vitrine e no pedido.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sales-channel".
+ */
+export interface SalesChannel {
+  id: number;
+  /**
+   * Número com código do país, ex.: +5511987654321 (usado em wa.me).
+   */
+  whatsappE164: string;
+  displayCurrency: 'BRL';
+  /**
+   * Se vazio, a marca padrão “Bazar Lima Basilio” é usada no cabeçalho.
+   */
+  storefrontTitle?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sales-channel_select".
+ */
+export interface SalesChannelSelect<T extends boolean = true> {
+  whatsappE164?: T;
+  displayCurrency?: T;
+  storefrontTitle?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
