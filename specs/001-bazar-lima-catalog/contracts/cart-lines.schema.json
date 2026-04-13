@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bazar-lima.local/contracts/cart-lines.schema.json",
+  "title": "Bazar Lima cart lines (localStorage)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "lines"],
+  "properties": {
+    "version": {
+      "type": "integer",
+      "const": 1,
+      "description": "Bump when breaking structure changes."
+    },
+    "lines": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["productId", "quantity", "unitPriceBrl", "title"],
+        "properties": {
+          "productId": { "type": "string", "minLength": 1 },
+          "quantity": { "type": "integer", "minimum": 1 },
+          "unitPriceBrl": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Numeric BRL; formatting uses locale pt-BR."
+          },
+          "title": { "type": "string", "minLength": 1 },
+          "slug": { "type": "string" }
+        }
+      }
+    }
+  }
+}
