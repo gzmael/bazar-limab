@@ -5,6 +5,12 @@ const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'
 let imagePatterns = [
   { protocol: 'http', hostname: 'localhost', port: '3000', pathname: '/api/**' },
   { protocol: 'http', hostname: '127.0.0.1', port: '3000', pathname: '/api/**' },
+  // Payload + @payloadcms/storage-vercel-blob serves files from Vercel Blob URLs in production.
+  {
+    protocol: 'https',
+    hostname: '*.public.blob.vercel-storage.com',
+    pathname: '/**',
+  },
 ]
 
 try {
