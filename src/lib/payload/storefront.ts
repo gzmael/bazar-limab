@@ -44,6 +44,7 @@ export async function listPublishedRooms(): Promise<Room[]> {
     collection: 'rooms',
     where: { storeStatus: { equals: 'published' } },
     sort: 'sort',
+    depth: 1,
     locale,
     limit: 100,
   })
@@ -61,6 +62,24 @@ export async function getPublishedRoomBySlug(slug: string): Promise<Room | null>
     locale,
   })
   return docs[0] ?? null
+}
+
+export async function listFeaturedProducts(): Promise<Product[]> {
+  const payload = await getPayloadInstance()
+  const { docs } = await payload.find({
+    collection: 'products',
+    where: {
+      and: [{ storeStatus: { equals: 'published' } }, { featured: { equals: true } }],
+    },
+    sort: 'sort',
+    depth: 2,
+    locale,
+    limit: 48,
+  })
+  return docs.filter((p) => {
+    const room = typeof p.room === 'object' && p.room ? p.room : null
+    return room?.storeStatus === 'published'
+  })
 }
 
 export async function listPublishedProductsForRoom(roomId: number): Promise<Product[]> {

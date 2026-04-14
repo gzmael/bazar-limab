@@ -1,18 +1,23 @@
 import type { Metadata } from 'next'
-import { Inter as FontSans } from 'next/font/google'
+import { Plus_Jakarta_Sans, Work_Sans } from 'next/font/google'
 import type { ReactNode } from 'react'
 import { NavVisibilityProvider } from '@/components/storefront/NavVisibilityProvider'
 import { SalesProvider } from '@/components/storefront/SalesProvider'
 import { StorefrontChrome } from '@/components/storefront/StorefrontChrome'
 import { CartProvider } from '@/lib/cart/CartProvider'
-import { getPublicSiteUrl, readSalesGlobal } from '@/lib/payload/storefront'
+import { getPublicSiteUrl, listPublishedRooms, readSalesGlobal } from '@/lib/payload/storefront'
 import { cn } from '@/lib/utils'
 
 import './globals.css'
 
-const fontSans = FontSans({
+const fontSans = Work_Sans({
   subsets: ['latin'],
   variable: '--font-sans',
+})
+
+const fontDisplay = Plus_Jakarta_Sans({
+  subsets: ['latin'],
+  variable: '--font-display',
 })
 
 const base = getPublicSiteUrl()
@@ -55,13 +60,27 @@ export default async function AppLayout({ children }: LayoutProps) {
     /* Global ainda não configurado ou banco indisponível (ex.: build) */
   }
 
+  let headerRooms: { id: number; title: string; slug: string }[] = []
+  try {
+    const rooms = await listPublishedRooms()
+    headerRooms = rooms.map((r) => ({ id: r.id, title: r.title, slug: r.slug }))
+  } catch {
+    /* Mesmo tratamento que leituras Payload no layout */
+  }
+
   return (
     <html lang="pt-BR">
-      <body className={cn('min-h-dvh bg-background font-sans antialiased', fontSans.variable)}>
+      <body
+        className={cn(
+          'min-h-dvh bg-background font-sans antialiased',
+          fontSans.variable,
+          fontDisplay.variable,
+        )}
+      >
         <NavVisibilityProvider>
           <SalesProvider value={salesPayload}>
             <CartProvider>
-              <StorefrontChrome storefrontTitle={salesPayload.storefrontTitle}>
+              <StorefrontChrome storefrontTitle={salesPayload.storefrontTitle} rooms={headerRooms}>
                 {children}
               </StorefrontChrome>
             </CartProvider>

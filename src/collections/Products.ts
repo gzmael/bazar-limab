@@ -88,6 +88,32 @@ export const Products: CollectionConfig = {
       type: 'row',
       fields: [
         {
+          name: 'maxPurchaseQty',
+          type: 'number',
+          required: true,
+          defaultValue: 99,
+          min: 1,
+          label: 'Quantidade máxima por pedido',
+          admin: { description: 'Limite de unidades no carrinho para este produto.' },
+        },
+        {
+          name: 'featured',
+          type: 'checkbox',
+          defaultValue: false,
+          label: 'Destaque na página inicial',
+        },
+        {
+          name: 'familyPick',
+          type: 'checkbox',
+          defaultValue: false,
+          label: 'Selo família (destaque curadoria)',
+        },
+      ],
+    },
+    {
+      type: 'row',
+      fields: [
+        {
           name: 'notesDimensions',
           type: 'text',
           label: 'Notas — dimensões',

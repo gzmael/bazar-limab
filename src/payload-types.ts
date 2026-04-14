@@ -192,6 +192,10 @@ export interface Room {
    */
   sort: number;
   /**
+   * Ícone pequeno para o carrossel da página inicial.
+   */
+  icon?: (number | null) | Media;
+  /**
    * Somente **Publicado** aparece para visitantes. **Arquivado** oculta o ambiente da vitrine.
    */
   storeStatus: 'draft' | 'published' | 'archived';
@@ -224,6 +228,12 @@ export interface Product {
    * Máximo 500 caracteres. Aparece na vitrine e no WhatsApp.
    */
   shortDescription: string;
+  /**
+   * Limite de unidades no carrinho para este produto.
+   */
+  maxPurchaseQty: number;
+  featured?: boolean | null;
+  familyPick?: boolean | null;
   /**
    * Opcional (ex.: 80×40 cm).
    */
@@ -380,6 +390,7 @@ export interface RoomsSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
   sort?: T;
+  icon?: T;
   storeStatus?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -395,6 +406,9 @@ export interface ProductsSelect<T extends boolean = true> {
   price?: T;
   condition?: T;
   shortDescription?: T;
+  maxPurchaseQty?: T;
+  featured?: T;
+  familyPick?: T;
   notesDimensions?: T;
   notesBrand?: T;
   notesYear?: T;
