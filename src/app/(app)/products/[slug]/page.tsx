@@ -50,53 +50,60 @@ export default async function ProductPage({ params }: Props) {
     .filter(Boolean) as { src: string; alt: string }[]
 
   return (
-    <div>
-      <nav className="mb-4 text-sm text-muted-foreground">
-        <Link href="/browse" className="underline-offset-2 hover:underline">
-          Ambientes
-        </Link>
-        {room && (
-          <>
-            <span className="mx-2">/</span>
-            <Link href={`/rooms/${room.slug}`} className="underline-offset-2 hover:underline">
-              {room.title}
-            </Link>
-          </>
-        )}
-      </nav>
-
-      <ProductGallery slides={slides} productTitle={product.title} />
-
-      <div className="mt-6 space-y-2">
-        <h1 className="text-2xl font-semibold leading-tight">{product.title}</h1>
-        <p className="text-lg font-medium text-primary">
-          {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(
-            product.price,
+    <div className="lg:grid lg:grid-cols-[minmax(0,1.1fr)_minmax(0,24rem)] lg:items-start lg:gap-8 xl:grid-cols-[minmax(0,1.2fr)_minmax(0,26rem)] xl:gap-10">
+      <div className="min-w-0">
+        <nav className="mb-4 text-sm text-muted-foreground">
+          <Link href="/browse" className="underline-offset-2 hover:underline">
+            Ambientes
+          </Link>
+          {room && (
+            <>
+              <span className="mx-2">/</span>
+              <Link href={`/rooms/${room.slug}`} className="underline-offset-2 hover:underline">
+                {room.title}
+              </Link>
+            </>
           )}
-        </p>
-        <p className="text-sm text-muted-foreground">
-          Estado: {conditionLabels[product.condition]}
-        </p>
-        <p className="whitespace-pre-wrap text-sm leading-relaxed">{product.shortDescription}</p>
+        </nav>
+
+        <ProductGallery slides={slides} productTitle={product.title} />
       </div>
 
-      {(product.notesDimensions || product.notesBrand || product.notesYear) && (
-        <section className="mt-6 rounded-xl border border-border bg-muted/40 p-4 text-sm">
-          <h2 className="mb-2 font-medium">Detalhes</h2>
-          <ul className="space-y-1 text-muted-foreground">
-            {product.notesDimensions ? <li>Dimensões: {product.notesDimensions}</li> : null}
-            {product.notesBrand ? <li>Marca: {product.notesBrand}</li> : null}
-            {product.notesYear ? <li>Ano: {product.notesYear}</li> : null}
-          </ul>
-        </section>
-      )}
+      <div className="mt-6 min-w-0 space-y-4 lg:sticky lg:top-28 lg:mt-0">
+        <div className="space-y-2">
+          <h1 className="text-2xl font-semibold leading-tight md:text-3xl">{product.title}</h1>
+          <p className="text-lg font-medium text-primary">
+            {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(
+              product.price,
+            )}
+          </p>
+          <p className="text-sm text-muted-foreground">
+            Estado: {conditionLabels[product.condition]}
+          </p>
+          <p className="whitespace-pre-wrap text-sm leading-relaxed text-foreground">
+            {product.shortDescription}
+          </p>
+        </div>
 
-      <AddToCartSection
-        productId={String(product.id)}
-        title={product.title}
-        unitPriceBrl={product.price}
-        slug={product.slug}
-      />
+        {(product.notesDimensions || product.notesBrand || product.notesYear) && (
+          <section className="rounded-xl border border-border bg-muted/40 p-4 text-sm">
+            <h2 className="mb-2 font-medium text-foreground">Detalhes</h2>
+            <ul className="space-y-1 text-muted-foreground">
+              {product.notesDimensions ? <li>Dimensões: {product.notesDimensions}</li> : null}
+              {product.notesBrand ? <li>Marca: {product.notesBrand}</li> : null}
+              {product.notesYear ? <li>Ano: {product.notesYear}</li> : null}
+            </ul>
+          </section>
+        )}
+
+        <AddToCartSection
+          maxPurchaseQty={typeof product.maxPurchaseQty === 'number' ? product.maxPurchaseQty : 99}
+          productId={String(product.id)}
+          slug={product.slug}
+          title={product.title}
+          unitPriceBrl={product.price}
+        />
+      </div>
     </div>
   )
 }

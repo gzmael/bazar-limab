@@ -60,7 +60,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
     } else {
       const next = {
         version: 1 as const,
-        lines: cur.lines.map((l) => (l.productId === productId ? { ...l, quantity } : l)),
+        lines: cur.lines.map((l) => {
+          if (l.productId !== productId) return l
+          const cap = l.maxPurchaseQty ?? 99
+          return { ...l, quantity: Math.min(quantity, cap) }
+        }),
       }
       writeCart(next)
     }

@@ -54,6 +54,13 @@ export const Rooms: CollectionConfig = {
       admin: { description: 'Menor número aparece primeiro na escolha de ambientes.' },
     },
     {
+      name: 'icon',
+      type: 'upload',
+      relationTo: 'media',
+      label: 'Ícone (opcional)',
+      admin: { description: 'Ícone pequeno para o carrossel da página inicial.' },
+    },
+    {
       name: 'storeStatus',
       type: 'select',
       required: true,

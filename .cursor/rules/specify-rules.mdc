@@ -8,6 +8,9 @@ alwaysApply: true
 Auto-generated from all feature plans. Last updated: 2026-04-13
 
 ## Active Technologies
+- TypeScript 5.4+, Node ≥ 20.9 + Next.js ^16 (App Router, RSC), React 19, Payload CMS 3.82, Tailwind CSS 4, shadcn/ui + radix-ui, tw-animate-css, Sharp (002-responsive-storefront-ui)
+- PostgreSQL via `@payloadcms/db-postgres` (Mongo adapter also in repo; storefront targets Postgres per constitution) (002-responsive-storefront-ui)
+- TypeScript 5.4+, Node ≥ 20.9 + Next.js ^16 (App Router, RSC), React 19, Payload CMS 3.82, Tailwind CSS 4, shadcn/ui + radix-ui, tw-animate-css, Sharp, `@number-flow/react` (per spec FR-012) (002-responsive-storefront-ui)
 
 - TypeScript 5.4+ on Node.js ≥ 20.9 + Next.js 16 (App Router, RSC), Payload CMS 3.82, React 19, shadcn/ui (Radix + Tailwind 4), React Bits (selected components only), `@payloadcms/db-postgres`, Lexical rich text where needed (001-bazar-lima-catalog)
 
@@ -27,6 +30,8 @@ npm test; npm run lint
 TypeScript 5.4+ on Node.js ≥ 20.9: Follow standard conventions
 
 ## Recent Changes
+- 002-responsive-storefront-ui: Added TypeScript 5.4+, Node ≥ 20.9 + Next.js ^16 (App Router, RSC), React 19, Payload CMS 3.82, Tailwind CSS 4, shadcn/ui + radix-ui, tw-animate-css, Sharp, `@number-flow/react` (per spec FR-012)
+- 002-responsive-storefront-ui: Added TypeScript 5.4+, Node ≥ 20.9 + Next.js ^16 (App Router, RSC), React 19, Payload CMS 3.82, Tailwind CSS 4, shadcn/ui + radix-ui, tw-animate-css, Sharp
 
 - 001-bazar-lima-catalog: Added TypeScript 5.4+ on Node.js ≥ 20.9 + Next.js 16 (App Router, RSC), Payload CMS 3.82, React 19, shadcn/ui (Radix + Tailwind 4), React Bits (selected components only), `@payloadcms/db-postgres`, Lexical rich text where needed
 

@@ -56,24 +56,47 @@ export function ProductGallery({ slides, productTitle }: Props) {
     })
   }
 
+  const slideCount = safeSlides.length
+  const numLayers = Math.min(3, slideCount)
+
   return (
     <div className="relative w-full">
-      <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-muted">
-        <Image
-          src={current.src}
-          alt={current.alt}
-          fill
-          className="object-cover"
-          sizes="(max-width: 640px) 100vw, 28rem"
-          priority={index === 0}
-          loading={index === 0 ? 'eager' : 'lazy'}
-        />
+      <div className="relative aspect-square w-full">
+        <div className="absolute inset-x-0 top-2 bottom-0 mx-auto w-[94%] max-w-lg">
+          {Array.from({ length: numLayers }, (_, layerIdx) => {
+            const distFromFront = numLayers - 1 - layerIdx
+            const slideIdx = (index - distFromFront + slideCount) % slideCount
+            const slide = safeSlides[slideIdx]
+            const isFront = distFromFront === 0
+            return (
+              <div
+                key={`${slide.src}-${slideIdx}`}
+                className="absolute inset-0 overflow-hidden rounded-xl border border-border bg-muted shadow-md motion-reduce:translate-y-0 motion-reduce:scale-100 motion-reduce:opacity-100"
+                style={{
+                  zIndex: distFromFront + 1,
+                  transform: `translateY(${distFromFront * 12}px) scale(${1 - distFromFront * 0.035})`,
+                  opacity: isFront ? 1 : 0.88 - distFromFront * 0.05,
+                }}
+              >
+                <Image
+                  src={slide.src}
+                  alt={slide.alt}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 28rem"
+                  priority={isFront && index === 0}
+                  loading={isFront && index === 0 ? 'eager' : 'lazy'}
+                />
+              </div>
+            )
+          })}
+        </div>
         {safeSlides.length > 1 && (
           <>
             <button
               type="button"
               onClick={() => go(-1)}
-              className="absolute left-2 top-1/2 flex size-11 -translate-y-1/2 items-center justify-center rounded-full bg-background/80 text-foreground shadow backdrop-blur-sm motion-safe:active:scale-95"
+              className="absolute left-1 top-1/2 z-20 flex size-11 -translate-y-1/2 items-center justify-center rounded-full bg-background/90 text-foreground shadow-md ring-1 ring-border backdrop-blur-sm motion-safe:active:scale-95"
               aria-label="Foto anterior"
             >
               <ChevronLeft className="size-6" />
@@ -81,7 +104,7 @@ export function ProductGallery({ slides, productTitle }: Props) {
             <button
               type="button"
               onClick={() => go(1)}
-              className="absolute right-2 top-1/2 flex size-11 -translate-y-1/2 items-center justify-center rounded-full bg-background/80 text-foreground shadow backdrop-blur-sm motion-safe:active:scale-95"
+              className="absolute right-1 top-1/2 z-20 flex size-11 -translate-y-1/2 items-center justify-center rounded-full bg-background/90 text-foreground shadow-md ring-1 ring-border backdrop-blur-sm motion-safe:active:scale-95"
               aria-label="Próxima foto"
             >
               <ChevronRight className="size-6" />
@@ -91,7 +114,7 @@ export function ProductGallery({ slides, productTitle }: Props) {
         <button
           type="button"
           onClick={openFs}
-          className="absolute bottom-2 right-2 rounded-md bg-background/85 px-2 py-1 text-xs font-medium text-foreground backdrop-blur-sm"
+          className="absolute bottom-3 right-3 z-20 rounded-md bg-background/90 px-2 py-1 text-xs font-medium text-foreground shadow-sm ring-1 ring-border backdrop-blur-sm"
         >
           Tela cheia
         </button>

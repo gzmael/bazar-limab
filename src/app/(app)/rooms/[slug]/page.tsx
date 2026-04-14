@@ -1,15 +1,14 @@
 import type { Metadata } from 'next'
-import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
+import { ProductCard } from '@/components/storefront/ProductCard'
 import {
   getPublicSiteUrl,
   getPublishedRoomBySlug,
   listPublishedProductsForRoom,
   mediaSrc,
 } from '@/lib/payload/storefront'
-import { formatBrl } from '@/lib/whatsapp/formatBrl'
 
 export const dynamic = 'force-dynamic'
 
@@ -44,43 +43,29 @@ export default async function RoomPage({ params }: Props) {
         <span className="mx-2">/</span>
         <span className="text-foreground">{room.title}</span>
       </nav>
-      <h1 className="mb-4 text-2xl font-semibold">{room.title}</h1>
+      <h1 className="mb-2 text-2xl font-semibold tracking-tight md:text-3xl">{room.title}</h1>
+      <p className="mb-6 text-sm text-muted-foreground md:text-base">
+        Produtos publicados neste ambiente.
+      </p>
       {products.length === 0 ? (
         <p className="text-muted-foreground">Nenhum produto neste ambiente no momento.</p>
       ) : (
-        <ul className="grid grid-cols-2 gap-3">
+        <ul className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3 xl:grid-cols-4">
           {products.map((p, i) => {
             const first = p.gallery?.[0]?.file
             const media = typeof first === 'object' && first ? first : null
             const src = mediaSrc(media)
             return (
               <li key={p.id}>
-                <Link
+                <ProductCard
+                  familyPick={Boolean(p.familyPick)}
                   href={`/products/${p.slug}`}
-                  className="block overflow-hidden rounded-xl border border-border bg-card shadow-sm motion-safe:transition-shadow hover:shadow-md"
-                >
-                  <div className="relative aspect-square bg-muted">
-                    {src ? (
-                      <Image
-                        src={src}
-                        alt={p.title}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 640px) 50vw, 14rem"
-                        loading={i < 4 ? 'eager' : 'lazy'}
-                        priority={i < 2}
-                      />
-                    ) : (
-                      <div className="flex h-full items-center justify-center text-xs text-muted-foreground">
-                        Sem foto
-                      </div>
-                    )}
-                  </div>
-                  <div className="p-3">
-                    <p className="line-clamp-2 text-sm font-medium leading-snug">{p.title}</p>
-                    <p className="mt-1 text-sm font-semibold text-primary">{formatBrl(p.price)}</p>
-                  </div>
-                </Link>
+                  imageSrc={src}
+                  loading={i < 4 ? 'eager' : 'lazy'}
+                  price={p.price}
+                  priority={i < 2}
+                  title={p.title}
+                />
               </li>
             )
           })}
