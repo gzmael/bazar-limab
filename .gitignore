@@ -40,7 +40,5 @@ next-env.d.ts
 
 .env
 
-/media/**
-
 # Payload CLI (optional; do not commit generated Drizzle mirror)
 src/payload-generated-schema.ts
