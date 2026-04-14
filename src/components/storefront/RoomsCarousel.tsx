@@ -71,7 +71,7 @@ export function RoomsCarousel({ rooms }: Props) {
             key={room.id}
             href={`/rooms/${room.slug}`}
             className={cn(
-              'flex w-[9.5rem] shrink-0 snap-start flex-col items-center gap-2 rounded-2xl bg-muted/50 p-3 text-center',
+              'flex w-38 shrink-0 snap-start flex-col items-center gap-2 rounded-2xl bg-muted/50 p-3 text-center',
               'motion-safe:transition-shadow motion-safe:duration-200 hover:shadow-md',
             )}
           >

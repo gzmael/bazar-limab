@@ -33,7 +33,7 @@ export default async function BrowsePage() {
               <li key={room.id}>
                 <Link
                   href={`/rooms/${room.slug}`}
-                  className="flex aspect-[4/3] flex-col items-center justify-center rounded-xl border border-border bg-card p-3 text-center text-sm font-medium text-card-foreground shadow-sm ring-1 ring-border/60 motion-safe:transition-[box-shadow,transform] motion-safe:duration-200 hover:shadow-md hover:ring-primary/20 sm:p-4"
+                  className="flex aspect-4/3 flex-col items-center justify-center rounded-xl border border-border bg-card p-3 text-center text-sm font-medium text-card-foreground shadow-sm ring-1 ring-border/60 motion-safe:transition-[box-shadow,transform] motion-safe:duration-200 hover:shadow-md hover:ring-primary/20 sm:p-4"
                 >
                   {room.title}
                 </Link>

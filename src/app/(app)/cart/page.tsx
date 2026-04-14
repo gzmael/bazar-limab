@@ -73,7 +73,7 @@ export default function CartPage() {
                       </button>
                     </div>
                     {line.quantity >= maxQty ? (
-                      <p className="max-w-[14rem] text-right text-xs text-muted-foreground">
+                      <p className="max-w-56 text-right text-xs text-muted-foreground">
                         Limite de {maxQty} unidade{maxQty === 1 ? '' : 's'} para este produto.
                       </p>
                     ) : null}

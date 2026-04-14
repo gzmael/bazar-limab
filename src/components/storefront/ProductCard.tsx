@@ -41,7 +41,7 @@ export function ProductCard({
     <article
       className={cn(
         'group relative flex h-full flex-col rounded-2xl p-px',
-        'bg-gradient-to-br from-primary/30 via-chart-2/15 to-chart-3/25',
+        'bg-linear-to-br from-primary/30 via-chart-2/15 to-chart-3/25',
         'shadow-sm motion-safe:transition-[box-shadow,filter] motion-safe:duration-200',
         'hover:shadow-md focus-within:shadow-md',
         className,
@@ -50,7 +50,7 @@ export function ProductCard({
       <div
         className={cn(
           'pointer-events-none absolute inset-0 rounded-2xl opacity-0 blur-[0.5px]',
-          'bg-gradient-to-br from-ring/40 via-primary/20 to-chart-4/30',
+          'bg-linear-to-br from-ring/40 via-primary/20 to-chart-4/30',
           'motion-safe:transition-opacity',
           'group-hover:opacity-100 group-focus-within:opacity-100',
         )}
