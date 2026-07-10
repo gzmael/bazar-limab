@@ -5,7 +5,7 @@ import { revalidateAllStorefront, revalidateProductAndRoom } from '@/lib/revalid
 const storeStatusOptions = [
   { label: 'Rascunho', value: 'draft' },
   { label: 'Publicado', value: 'published' },
-  { label: 'Arquivado', value: 'archived' },
+  { label: 'Vendido', value: 'archived' },
 ] as const
 
 export const Products: CollectionConfig = {
@@ -22,7 +22,7 @@ export const Products: CollectionConfig = {
     read: ({ req }) => {
       if (req.user) return true
       /* Relação com ambiente publicado é garantida nas consultas da vitrine (storefront). */
-      return { storeStatus: { equals: 'published' } }
+      return { storeStatus: { in: ['published', 'archived'] } }
     },
     create: ({ req }) => Boolean(req.user),
     update: ({ req }) => Boolean(req.user),
@@ -167,7 +167,7 @@ export const Products: CollectionConfig = {
       options: [...storeStatusOptions],
       admin: {
         description:
-          'Somente **Publicado** (com ambiente publicado) aparece para visitantes. **Arquivado** remove da vitrine.',
+          '**Publicado** (com ambiente publicado) aparece para visitantes. **Vendido** continua na vitrine com selo "Vendido" e sem opção de compra. **Rascunho** fica oculto.',
       },
     },
   ],

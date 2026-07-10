@@ -6,6 +6,7 @@ import { ProductCard } from '@/components/storefront/ProductCard'
 import {
   getPublicSiteUrl,
   getPublishedRoomBySlug,
+  isProductSold,
   listPublishedProductsForRoom,
   mediaSrc,
 } from '@/lib/payload/storefront'
@@ -64,6 +65,7 @@ export default async function RoomPage({ params }: Props) {
                   loading={i < 4 ? 'eager' : 'lazy'}
                   price={p.price}
                   priority={i < 2}
+                  sold={isProductSold(p)}
                   title={p.title}
                 />
               </li>

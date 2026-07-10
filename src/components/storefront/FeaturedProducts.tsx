@@ -14,6 +14,7 @@ export type FeaturedProductItem = {
   maxPurchaseQty: number
   imageSrc: string | null
   familyPick: boolean
+  sold: boolean
 }
 
 type Props = {
@@ -46,8 +47,10 @@ function FeaturedCard({ product }: { product: FeaturedProductItem }) {
       footer={
         <button
           type="button"
-          className="w-full rounded-full bg-primary py-2.5 text-sm font-medium text-primary-foreground motion-safe:active:scale-[0.99]"
+          className="w-full rounded-full bg-primary py-2.5 text-sm font-medium text-primary-foreground disabled:cursor-not-allowed disabled:bg-muted disabled:text-muted-foreground motion-safe:active:scale-[0.99]"
+          disabled={product.sold}
           onClick={() => {
+            if (product.sold) return
             addLine({
               productId: String(product.id),
               quantity: 1,
@@ -60,7 +63,7 @@ function FeaturedCard({ product }: { product: FeaturedProductItem }) {
             window.setTimeout(() => setAdded(false), 2000)
           }}
         >
-          {added ? 'Adicionado!' : 'Adicionar ao carrinho'}
+          {product.sold ? 'Vendido' : added ? 'Adicionado!' : 'Adicionar ao carrinho'}
         </button>
       }
       href={`/products/${product.slug}`}
@@ -68,6 +71,7 @@ function FeaturedCard({ product }: { product: FeaturedProductItem }) {
       price={product.price}
       shortDescription={product.shortDescription}
       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+      sold={product.sold}
       title={product.title}
     />
   )
