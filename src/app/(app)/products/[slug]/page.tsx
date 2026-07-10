@@ -4,10 +4,12 @@ import { notFound } from 'next/navigation'
 
 import { AddToCartSection } from '@/components/storefront/AddToCartSection'
 import { ProductGallery } from '@/components/storefront/ProductGallery'
+import { SoldBadge } from '@/components/storefront/SoldBadge'
 import {
   conditionLabels,
   getPublicSiteUrl,
   getPublishedProductBySlug,
+  isProductSold,
   mediaSrc,
 } from '@/lib/payload/storefront'
 
@@ -39,6 +41,7 @@ export default async function ProductPage({ params }: Props) {
   const product = await getPublishedProductBySlug(slug)
   if (!product) notFound()
 
+  const sold = isProductSold(product)
   const room = typeof product.room === 'object' && product.room ? product.room : null
   const slides = product.gallery
     ?.map((g) => {
@@ -71,6 +74,7 @@ export default async function ProductPage({ params }: Props) {
 
       <div className="mt-6 min-w-0 space-y-4 lg:sticky lg:top-28 lg:mt-0">
         <div className="space-y-2">
+          {sold ? <SoldBadge className="text-xs" /> : null}
           <h1 className="text-2xl font-semibold leading-tight md:text-3xl">{product.title}</h1>
           <p className="text-lg font-medium text-primary">
             {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(
@@ -100,6 +104,7 @@ export default async function ProductPage({ params }: Props) {
           maxPurchaseQty={typeof product.maxPurchaseQty === 'number' ? product.maxPurchaseQty : 99}
           productId={String(product.id)}
           slug={product.slug}
+          sold={sold}
           title={product.title}
           unitPriceBrl={product.price}
         />

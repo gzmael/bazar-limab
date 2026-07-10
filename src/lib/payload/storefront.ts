@@ -69,7 +69,7 @@ export async function listFeaturedProducts(): Promise<Product[]> {
   const { docs } = await payload.find({
     collection: 'products',
     where: {
-      and: [{ storeStatus: { equals: 'published' } }, { featured: { equals: true } }],
+      and: [{ storeStatus: { in: ['published', 'archived'] } }, { featured: { equals: true } }],
     },
     sort: 'sort',
     depth: 2,
@@ -87,7 +87,7 @@ export async function listPublishedProductsForRoom(roomId: number): Promise<Prod
   const { docs } = await payload.find({
     collection: 'products',
     where: {
-      and: [{ room: { equals: roomId } }, { storeStatus: { equals: 'published' } }],
+      and: [{ room: { equals: roomId } }, { storeStatus: { in: ['published', 'archived'] } }],
     },
     sort: 'sort',
     depth: 2,
@@ -102,7 +102,7 @@ export async function getPublishedProductBySlug(slug: string): Promise<Product |
   const { docs } = await payload.find({
     collection: 'products',
     where: {
-      and: [{ slug: { equals: slug } }, { storeStatus: { equals: 'published' } }],
+      and: [{ slug: { equals: slug } }, { storeStatus: { in: ['published', 'archived'] } }],
     },
     limit: 1,
     depth: 2,
@@ -122,6 +122,11 @@ export async function readSalesGlobal(): Promise<SalesChannel> {
     locale,
   })
   return doc as SalesChannel
+}
+
+/** Produto vendido: continua na vitrine (selo "Vendido"), sem opção de compra. */
+export function isProductSold(product: Product): boolean {
+  return product.storeStatus === 'archived'
 }
 
 export const conditionLabels: Record<Product['condition'], string> = {

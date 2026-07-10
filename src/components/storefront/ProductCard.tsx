@@ -3,6 +3,7 @@ import Link from 'next/link'
 import type { ReactNode } from 'react'
 import { FamilyBadge } from '@/components/storefront/FamilyBadge'
 import { FlowNumber } from '@/components/storefront/FlowNumber'
+import { SoldBadge } from '@/components/storefront/SoldBadge'
 import { cn } from '@/lib/utils'
 
 type Props = {
@@ -11,6 +12,8 @@ type Props = {
   imageSrc: string | null
   price: number
   familyPick?: boolean
+  /** Produto vendido: exibe selo “Vendido” sobre a foto. */
+  sold?: boolean
   /** One-line teaser (e.g. featured section). */
   shortDescription?: string
   sizes?: string
@@ -30,6 +33,7 @@ export function ProductCard({
   imageSrc,
   price,
   familyPick,
+  sold,
   shortDescription,
   sizes = '(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw',
   priority,
@@ -74,9 +78,10 @@ export function ProductCard({
                 Sem foto
               </div>
             )}
-            {familyPick ? (
-              <span className="absolute left-2 top-2">
-                <FamilyBadge />
+            {sold || familyPick ? (
+              <span className="absolute left-2 top-2 flex flex-col items-start gap-1">
+                {sold ? <SoldBadge /> : null}
+                {familyPick ? <FamilyBadge /> : null}
               </span>
             ) : null}
           </div>

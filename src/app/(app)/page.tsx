@@ -1,6 +1,11 @@
 import { FeaturedProducts } from '@/components/storefront/FeaturedProducts'
 import { RoomsCarousel } from '@/components/storefront/RoomsCarousel'
-import { listFeaturedProducts, listPublishedRooms, mediaSrc } from '@/lib/payload/storefront'
+import {
+  isProductSold,
+  listFeaturedProducts,
+  listPublishedRooms,
+  mediaSrc,
+} from '@/lib/payload/storefront'
 
 export const dynamic = 'force-dynamic'
 
@@ -35,6 +40,7 @@ export default async function HomePage() {
       maxPurchaseQty: typeof p.maxPurchaseQty === 'number' ? p.maxPurchaseQty : 99,
       imageSrc: mediaSrc(file),
       familyPick: Boolean(p.familyPick),
+      sold: isProductSold(p),
     }
   })
 
